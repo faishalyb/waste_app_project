@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:waste_app/domain/customers.dart';
-import 'package:waste_app/presentation/page/customers_page/methods/detail/detail_customers.dart';
+import 'package:waste_app/presentation/page/customers_page/methods/list_customers/detail_customers.dart';
 
 class ListCustomers extends StatefulWidget {
   const ListCustomers({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _ListCustomersState createState() => _ListCustomersState();
 }
 
@@ -20,8 +21,10 @@ class _ListCustomersState extends State<ListCustomers> {
     futureNasabah = _fetchAndSortCustomers();
   }
 
+// MENGAMBIL DAN MENGURUTKAN DATA NASABAH
   Future<List<dynamic>> _fetchAndSortCustomers() async {
     List<dynamic> customers = await Customer().getCustomer();
+    // MENGURUTKAN BY NAME A-Z
     customers.sort((a, b) => a['name'].compareTo(b['name']));
     _allNasabah = customers;
     _filteredNasabah = customers;
@@ -118,7 +121,7 @@ class _ListCustomersState extends State<ListCustomers> {
                               ),
                               child: Padding(
                                 padding:
-                                    const EdgeInsets.fromLTRB(15, 15, 0, 15),
+                                    const EdgeInsets.fromLTRB(12, 12, 0, 0),
                                 child: Text(nasabah['name']),
                               ),
                             ),

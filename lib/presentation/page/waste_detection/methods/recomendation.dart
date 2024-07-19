@@ -51,50 +51,52 @@ class RecomendationScreen extends StatelessWidget {
                                   fontSize: 24, fontWeight: FontWeight.bold),
                             ),
                             const SizedBox(height: 5),
-                            ...rec.youtubeRecommendations
-                                .map((recommendation) => Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          0, 10, 0, 0),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            recommendation['heading']!,
-                                            style: const TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          InkWell(
-                                            onTap: () async {
-                                              final url =
-                                                  recommendation['link']!;
-                                              print(
-                                                  'Attempting to launch URL: $url');
-                                              if (await canLaunch(url)) {
-                                                await launch(url);
-                                                print(
-                                                    'Successfully launched URL: $url');
-                                              } else {
-                                                print(
-                                                    'Could not launch URL: $url');
-                                                throw 'Could not launch $url';
-                                              }
-                                            },
-                                            child: Text(
-                                              recommendation['link']!,
-                                              style: const TextStyle(
-                                                color: Colors.blue,
-                                                decoration:
-                                                    TextDecoration.underline,
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(height: 10),
-                                        ],
+                            ...rec.youtubeRecommendations.map(
+                              (recommendation) => Padding(
+                                padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      recommendation['heading']!,
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
                                       ),
-                                    )),
+                                    ),
+                                    InkWell(
+                                      onTap: () async {
+                                        final url = recommendation['link']!;
+                                        // ignore: avoid_print
+                                        print('Attempting to launch URL: $url');
+                                        if (await canLaunchUrl(
+                                          Uri.parse(url),
+                                        )) {
+                                          await launchUrl(
+                                            Uri.parse(url),
+                                          );
+                                          // ignore: avoid_print
+                                          print(
+                                              'Successfully launched URL: $url');
+                                        } else {
+                                          // ignore: avoid_print
+                                          print('Could not launch URL: $url');
+                                          throw 'Could not launch $url';
+                                        }
+                                      },
+                                      child: Text(
+                                        recommendation['link']!,
+                                        style: const TextStyle(
+                                          color: Colors.blue,
+                                          decoration: TextDecoration.underline,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 10),
+                                  ],
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ),

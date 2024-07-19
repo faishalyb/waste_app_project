@@ -6,6 +6,7 @@ class ListHistory extends StatefulWidget {
   const ListHistory({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _ListHistoryState createState() => _ListHistoryState();
 }
 
@@ -20,20 +21,24 @@ class _ListHistoryState extends State<ListHistory> {
     futureNasabah = _fetchAndSortCustomers();
   }
 
+// MENGAMBIL DAN MENGURUTKAN DATA NASABAH
   Future<List<dynamic>> _fetchAndSortCustomers() async {
     List<dynamic> customers = await Customer().getHistory();
+    // MENGURUTKAN BY TANGGAL NASABAH MENABUNG
     customers.sort((a, b) => a['date'].compareTo(b['date']));
     _allNasabah = customers;
     _filteredNasabah = customers;
     return customers;
   }
 
+// REFRESH LIST NASABAH
   Future<void> _refreshCustomerList() async {
     setState(() {
       futureNasabah = _fetchAndSortCustomers();
     });
   }
 
+// FILTER NASABAH BY UPPER CASE TO LOWER CASE (SEARCH FUNCTION)
   void _filterCustomers(String query) {
     setState(() {
       if (query.isEmpty) {
@@ -95,11 +100,11 @@ class _ListHistoryState extends State<ListHistory> {
                 future: futureNasabah,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   } else if (snapshot.hasError) {
                     return Center(child: Text('Error: ${snapshot.error}'));
                   } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return Center(child: Text('No nasabah found'));
+                    return const Center(child: Text('No nasabah found'));
                   } else {
                     return RefreshIndicator(
                       onRefresh: _refreshCustomerList,

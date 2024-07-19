@@ -17,27 +17,33 @@ class NewCustomerScreen extends StatefulWidget {
 class _NewCustomerScreenState extends State<NewCustomerScreen> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
+
   String? _errorMessage;
 
   final Customer _customer = Customer();
 
+// FUNGSI REGISTRASI NASABAH
   Future<void> _registerCustomer() async {
     EasyLoading.show(status: 'Loading');
     if (_formKey.currentState!.validate()) {
       try {
         // ignore: unused_local_variable
-        final response = await _customer.registerCusomer(
+        final response = await _customer.registerCustomer(
           nameController.text,
+          emailController.text,
           addressController.text,
           phoneNumberController.text,
         );
         Navigator.push(
+            // ignore: use_build_context_synchronously
             context,
             MaterialPageRoute(
                 builder: (context) => const NewCustomerSuccess()));
       } catch (e) {
+        // ERROR MESSAGE PENGECUALIAN EXCEPTION MENJADI ""
         setState(() {
           _errorMessage = e.toString().replaceFirst('Exception:', '');
         });
@@ -81,6 +87,19 @@ class _NewCustomerScreenState extends State<NewCustomerScreen> {
               ),
               const SizedBox(height: 30),
               const Text(
+                'Email',
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 10),
+              WasteAppTextFields(
+                hintText: 'Tulis nama nasabah baru disini',
+                controller: emailController,
+              ),
+              const SizedBox(height: 30),
+              const Text(
                 'Alamat',
                 style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
               ),
@@ -108,7 +127,7 @@ class _NewCustomerScreenState extends State<NewCustomerScreen> {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-              const SizedBox(height: 50),
+              const SizedBox(height: 30),
               Center(
                 child: Container(
                   decoration: BoxDecoration(
@@ -132,6 +151,7 @@ class _NewCustomerScreenState extends State<NewCustomerScreen> {
                   ),
                 ),
               ),
+              const SizedBox(height: 30),
             ],
           ),
         ),

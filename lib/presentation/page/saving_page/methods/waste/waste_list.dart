@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:waste_app/domain/waste.dart';
 import 'package:waste_app/presentation/page/saving_page/methods/waste/add_waste.dart';
 import 'package:waste_app/presentation/page/saving_page/methods/waste/edit_waste.dart';
-import 'package:waste_app/presentation/widgets/floating_icon_button.dart';
 
 class WasteList extends StatefulWidget {
   const WasteList({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _WasteListState createState() => _WasteListState();
 }
 
@@ -28,7 +27,7 @@ class _WasteListState extends State<WasteList> {
     try {
       List<dynamic> fetchedWastes = await Waste().getWaste();
       fetchedWastes = fetchedWastes.map((waste) {
-        waste['pricePerGram'] = waste['pricePerGram'];
+        waste['pricePer100Gram'] = waste['pricePer100Gram'];
         return waste;
       }).toList();
       fetchedWastes.sort((a, b) => a['name'].compareTo(b['name']));
@@ -135,10 +134,12 @@ class _WasteListState extends State<WasteList> {
         setState(() {
           wastes.removeWhere((w) => w['id'] == waste['id']);
         });
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Sampah berhasil dihapus')),
+          const SnackBar(content: Text('Sampah berhasil dihapus')),
         );
       } catch (e) {
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Failed to delete waste: $e')),
         );
@@ -163,11 +164,11 @@ class _WasteListState extends State<WasteList> {
           ),
           Expanded(
             child: isLoading
-                ? Center(child: CircularProgressIndicator())
+                ? const Center(child: CircularProgressIndicator())
                 : errorMessage != null
                     ? Center(child: Text('Error: $errorMessage'))
                     : wastes.isEmpty
-                        ? Center(child: Text('No nasabah found'))
+                        ? const Center(child: Text('Tidak Ada Sampah'))
                         : ListView.builder(
                             itemCount: wastes.length,
                             itemBuilder: (context, index) {
@@ -205,7 +206,7 @@ class _WasteListState extends State<WasteList> {
                                                   ),
                                                 ),
                                                 Text(
-                                                    'Rp${sampah['pricePerGram']}/ons')
+                                                    'Rp${sampah['pricePer100Gram']}/ons')
                                               ],
                                             ),
                                             Row(
@@ -244,35 +245,31 @@ class _WasteListState extends State<WasteList> {
                                       ),
                                     ),
                                   ),
+                                  if (index == wastes.length - 1)
+                                    const SizedBox(height: 50),
                                 ],
                               );
                             },
                           ),
           ),
-          const SizedBox(height: 10)
         ],
       ),
-      bottomSheet: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: SizedBox(
-              width: 60,
-              child: FloatingIconButton(
-                iconData: Icons.add,
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const AddWaste()));
-                },
-                color: Colors.green,
-                iconSize: 40,
-              ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AddWaste(),
             ),
-          ),
-        ],
+          );
+        },
+        backgroundColor: Colors.green,
+        shape: const CircleBorder(),
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+          size: 30,
+        ),
       ),
     );
   }

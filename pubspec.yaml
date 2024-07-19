@@ -2,8 +2,6 @@ name: waste_app
 description: "A new Flutter project for Final Capstone Project Telecommunication
   Engineering"
 
-publish_to: "none" # Remove this line if you wish to publish to pub.dev
-
 version: 1.0.0+1
 
 environment:
@@ -13,6 +11,7 @@ dependencies:
   camera: ^0.11.0
   carousel_slider: ^4.2.1
   cupertino_icons: ^1.0.2
+  fl_chart: ^0.68.0
   flutter:
     sdk: flutter
   flutter_dotenv: ^5.1.0

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:waste_app/domain/authentication.dart';
 import 'package:waste_app/presentation/page/login_page/login_screen.dart';
@@ -95,11 +94,13 @@ class ProfilePage extends StatelessWidget {
       try {
         await Authentication().logoutUser();
         Navigator.pushAndRemoveUntil(
+          // ignore: use_build_context_synchronously
           context,
           MaterialPageRoute(builder: (context) => const LoginScreen()),
           (route) => false,
         );
       } catch (e) {
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Failed to log out: $e')),
         );
@@ -173,10 +174,12 @@ class ProfilePage extends StatelessWidget {
                       ),
                       onPressed: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => EditProfile(
-                                    username: username, email: email)));
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                EditProfile(username: username, email: email),
+                          ),
+                        );
                       },
                       icon: const Icon(
                         Icons.person,

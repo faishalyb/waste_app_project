@@ -1,12 +1,14 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 import 'package:waste_app/domain/customers.dart';
+import 'package:waste_app/presentation/page/saving_page/methods/balance/riwayat_penarikan.dart';
+import 'package:waste_app/presentation/page/saving_page/methods/balance/tarik_saldo.dart';
 
 class CustomersBalance extends StatefulWidget {
   const CustomersBalance({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _CustomersBalanceState createState() => _CustomersBalanceState();
 }
 
@@ -21,9 +23,11 @@ class _CustomersBalanceState extends State<CustomersBalance> {
     _fetchAndSortCustomers();
   }
 
+// MENGAMBIL DAN MENGURUTKAN NASABAH
   Future<void> _fetchAndSortCustomers() async {
     try {
       List<dynamic> fetchedCustomers = await Customer().getBalance();
+      // MENGURUTKAN NASABAH
       fetchedCustomers.sort((a, b) => a['name'].compareTo(b['name']));
       setState(() {
         customers = fetchedCustomers;
@@ -39,6 +43,8 @@ class _CustomersBalanceState extends State<CustomersBalance> {
 
   @override
   Widget build(BuildContext context) {
+    final NumberFormat formatter = NumberFormat(
+        '#,##0', 'id_ID'); // FORMAT RIBUAN PEMISAH INDONESIA LOCALIZATION
     return Scaffold(
       appBar: AppBar(),
       body: Column(
@@ -56,11 +62,11 @@ class _CustomersBalanceState extends State<CustomersBalance> {
           ),
           Expanded(
             child: isLoading
-                ? Center(child: CircularProgressIndicator())
+                ? const Center(child: CircularProgressIndicator())
                 : errorMessage != null
                     ? Center(child: Text('Error: $errorMessage'))
                     : customers.isEmpty
-                        ? Center(child: Text('No nasabah found'))
+                        ? const Center(child: Text('No nasabah found'))
                         : ListView.builder(
                             itemCount: customers.length,
                             itemBuilder: (context, index) {
@@ -97,7 +103,7 @@ class _CustomersBalanceState extends State<CustomersBalance> {
                                               width: 10,
                                             ),
                                             Text(
-                                              'Rp${nasabah['totalBalance']}',
+                                              'Rp${formatter.format(nasabah['totalBalance'])}',
                                               style: const TextStyle(
                                                 fontSize: 15,
                                               ),
@@ -107,12 +113,85 @@ class _CustomersBalanceState extends State<CustomersBalance> {
                                       ),
                                     ),
                                   ),
+                                  if (index == customers.length - 1)
+                                    const SizedBox(height: 20)
                                 ],
                               );
                             },
                           ),
           ),
         ],
+      ),
+      bottomNavigationBar: BottomAppBar(
+        child: Column(
+          children: [
+            Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 150,
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const LiquidHistory()));
+                      },
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all(const Color(0xFF7ABA78)),
+                        shape: MaterialStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      ),
+                      child: const Text(
+                        'Riwayat',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 20),
+                  SizedBox(
+                    width: 150,
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const LiquidityCustomers(),
+                          ),
+                        );
+                      },
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(
+                          const Color(0xffE66776),
+                        ),
+                        shape: MaterialStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      ),
+                      child: const Text(
+                        'Tarik Saldo',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

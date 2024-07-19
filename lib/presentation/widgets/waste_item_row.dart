@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 class WasteItemRow extends StatefulWidget {
   final int index;
   final List<String> wasteTypes;
+  final String selectedWasteType; // Add this line
   final Function(String) onWasteTypeChanged;
   final Function(String) onAmountChanged;
   final Function(int) onDelete;
@@ -16,6 +17,7 @@ class WasteItemRow extends StatefulWidget {
     super.key,
     required this.index,
     required this.wasteTypes,
+    required this.selectedWasteType, // Add this line
     required this.onWasteTypeChanged,
     required this.onAmountChanged,
     required this.onDelete,
@@ -34,12 +36,12 @@ class _WasteItemRowState extends State<WasteItemRow> {
 
   List<String> wasteTypes = [];
   Map<String, int> wasteTypePrices = {}; // Map to store waste type and prices
-  String selectedWasteType = ''; // Variable to store the selected waste type
 
   @override
   void initState() {
     super.initState();
     fetchWasteTypes();
+    wasteTypeController.text = widget.selectedWasteType; // Add this line
   }
 
   Future<void> fetchWasteTypes() async {
@@ -54,7 +56,15 @@ class _WasteItemRowState extends State<WasteItemRow> {
         wasteTypePrices = Map.fromIterable(
           data,
           key: (e) => e['name'] as String,
-          value: (e) => e['pricePerGram'] as int,
+          value: (e) {
+            if (e['pricePer100Gram'] is int) {
+              return e['pricePer100Gram'] as int;
+            } else if (e['pricePer100Gram'] is String) {
+              return int.tryParse(e['pricePer100Gram']) ?? 0;
+            } else {
+              return 0;
+            }
+          },
         );
       });
     } else {
@@ -63,12 +73,12 @@ class _WasteItemRowState extends State<WasteItemRow> {
   }
 
   double calculateTotal() {
-    if (!wasteTypePrices.containsKey(selectedWasteType)) return 0;
+    if (!wasteTypePrices.containsKey(widget.selectedWasteType)) return 0;
 
     double amount =
         double.tryParse(amountController.text) ?? 0; // Handle invalid input
     double amountInGrams = amount * 1000; // Convert kg to grams
-    return (wasteTypePrices[selectedWasteType]! / 100) *
+    return (wasteTypePrices[widget.selectedWasteType]! / 100) *
         amountInGrams; // Calculate total
   }
 
@@ -94,7 +104,6 @@ class _WasteItemRowState extends State<WasteItemRow> {
                   title: Text(wasteType),
                   onTap: () {
                     setState(() {
-                      selectedWasteType = wasteType;
                       wasteTypeController.text = wasteType;
                       widget.onWasteTypeChanged(wasteType);
                       widget.onTotalChanged(widget.index, calculateTotal());
@@ -183,7 +192,8 @@ class _WasteItemRowState extends State<WasteItemRow> {
               width: 60,
               child: TextField(
                 controller: amountController,
-                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
                 decoration: InputDecoration(
                   hintText: 'KG',
                   hintStyle: TextStyle(

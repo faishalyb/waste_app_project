@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:waste_app/domain/authentication.dart';
 import 'package:waste_app/presentation/page/login_page/login_screen.dart';
 import 'package:waste_app/presentation/page/main_page/main_page.dart';
-import 'package:waste_app/presentation/page/onboarding_page/onboarding_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:waste_app/presentation/page/onboarding_page/onboarding_page.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -76,7 +76,7 @@ class _SplashScreenState extends State<SplashScreen>
       const Duration(seconds: 4),
       () {
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => const Onboarding_Screen()),
+          MaterialPageRoute(builder: (_) => const OnboardingScreen()),
         );
       },
     );

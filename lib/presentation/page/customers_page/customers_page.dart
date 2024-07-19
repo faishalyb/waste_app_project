@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:waste_app/presentation/page/customers_page/methods/detail/list_customers.dart';
+import 'package:waste_app/presentation/page/customers_page/methods/list_customers/list_customers.dart';
 import 'package:waste_app/presentation/page/customers_page/methods/history/list_history_customers.dart';
 import 'package:waste_app/presentation/page/customers_page/methods/new/new_customers.dart';
 
@@ -274,63 +274,3 @@ class CustomersPage extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-// Center(
-//                 child: SizedBox(
-//                   width: 350,
-//                   height: 55,
-//                   child: TextButton(
-//                     style: ButtonStyle(
-//                         backgroundColor:
-//                             MaterialStateProperty.all(const Color(0xFF7FB77E))),
-//                     onPressed: () {
-//                       Navigator.push(
-//                           context,
-//                           MaterialPageRoute(
-//                               builder: (context) => NewCustomer()));
-//                     },
-//                     child: const Text(
-//                       'Registrasi Nasabah Baru',
-//                       style: TextStyle(
-//                           color: Colors.white,
-//                           fontSize: 15,
-//                           fontWeight: FontWeight.bold),
-//                     ),
-//                   ),
-//                 ),
-//               ),
-//               const SizedBox(
-//                 height: 50,
-//               ),
-//               const Text(
-//                 'Nasabah Baru',
-//                 style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
-//               ),
-//               const Text(
-//                 'Diperuntukkan untuk nasabah baru yang ingin menabung di Bank Sampah',
-//               ),
-//               const SizedBox(
-//                 height: 20,
-//               ),
-//               Center(
-//                 child: SizedBox(
-//                   width: 350,
-//                   height: 55,
-//                   child: TextButton(
-//                       style: ButtonStyle(
-//                           backgroundColor: MaterialStateProperty.all(
-//                               const Color(0xFF7FB77E))),
-//                       onPressed: () {},
-//                       child: const Text(
-//                         'Tabung Sampah',
-//                         style: TextStyle(
-//                             color: Colors.white,
-//                             fontSize: 15,
-//                             fontWeight: FontWeight.bold),
-//                       )),
-//                 ),
-//               ),

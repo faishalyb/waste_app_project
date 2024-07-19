@@ -9,6 +9,7 @@ Future<void> main() async {
   try {
     await dotenv.load(fileName: '.env');
   } catch (e) {
+    // ignore: avoid_print
     print("Error loading .env file: $e");
   }
   runApp(const MyApp());
@@ -26,12 +27,11 @@ class MyApp extends StatelessWidget {
         fontFamily: "Poppins",
         bottomAppBarTheme: const BottomAppBarTheme(
           elevation: 0,
-          color: Colors.transparent, // Globally disable BottomAppBar shadows
+          color: Colors.transparent, //
         ),
         appBarTheme: const AppBarTheme(
-          backgroundColor:
-              Colors.transparent, // Explicitly set AppBar background to white
-          scrolledUnderElevation: 0, // Disable color change on scroll
+          backgroundColor: Colors.transparent, //
+          scrolledUnderElevation: 0, //
         ),
         bottomSheetTheme: const BottomSheetThemeData(
           backgroundColor: Colors.transparent,

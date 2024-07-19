@@ -23,6 +23,7 @@ class _DetailHistoryState extends State<DetailHistory> {
     fetchWasteTypes();
   }
 
+// MENGAMBIL DATA TIPE SAMPAH
   Future<void> fetchWasteTypes() async {
     final response = await http
         .get(Uri.parse('${dotenv.env['BASE_URL_BACKEND']}/wastetypes'));
@@ -51,7 +52,7 @@ class _DetailHistoryState extends State<DetailHistory> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              'Detail Nasabah',
+              'Riwayat Menabung',
               style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.bold,
@@ -113,7 +114,7 @@ class _DetailHistoryState extends State<DetailHistory> {
                 padding: const EdgeInsets.only(top: 20),
                 child: Text(
                   _errorMessage,
-                  style: TextStyle(color: Colors.red),
+                  style: const TextStyle(color: Colors.red),
                 ),
               ),
             const SizedBox(height: 75),

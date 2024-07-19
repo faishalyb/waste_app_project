@@ -1,43 +1,58 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:waste_app/domain/waste.dart';
-import 'package:waste_app/presentation/page/saving_page/result/new_waste_success.dart';
-import 'package:waste_app/presentation/widgets/text_fields.dart';
+import 'package:waste_app/domain/customers.dart';
+import 'package:waste_app/presentation/widgets/address_widget_textfield.dart';
 import 'package:waste_app/presentation/widgets/text_fields_customers.dart';
 
-// ignore: must_be_immutable
-class AddWaste extends StatefulWidget {
-  const AddWaste({super.key});
+class EditCustomerScreen extends StatefulWidget {
+  final Map<String, dynamic> nasabah;
+
+  const EditCustomerScreen({super.key, required this.nasabah});
 
   @override
-  State<AddWaste> createState() => _AddWasteState();
+  State<EditCustomerScreen> createState() => _EditCustomerScreenState();
 }
 
-class _AddWasteState extends State<AddWaste> {
+class _EditCustomerScreenState extends State<EditCustomerScreen> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController wasteTypeController = TextEditingController();
-  TextEditingController priceController = TextEditingController();
+  late TextEditingController nameController;
+  late TextEditingController addressController;
+  late TextEditingController phoneNumberController;
+  late TextEditingController emailController;
   String? _errorMessage;
 
-  final Waste _waste = Waste();
+  final Customer _customer = Customer();
 
-// MENAMBAHKAN JENIS SAMPAH
-  Future<void> _newWaste() async {
+  @override
+  void initState() {
+    super.initState();
+    nameController = TextEditingController(text: widget.nasabah['name'] ?? '');
+    addressController =
+        TextEditingController(text: widget.nasabah['address'] ?? '');
+    phoneNumberController =
+        TextEditingController(text: widget.nasabah['phoneNumber'] ?? '');
+    emailController =
+        TextEditingController(text: widget.nasabah['email'] ?? '');
+  }
+
+// FUNGSI UPDATE NASABAH TERHADAP API
+  Future<void> _updateCustomer() async {
     EasyLoading.show(status: 'Loading');
     if (_formKey.currentState!.validate()) {
       try {
-        // ignore: unused_local_variable
-        final response = await _waste.newWaste(
-          wasteTypeController.text,
-          priceController.text,
+        await _customer.updateCustomer(
+          widget.nasabah['id'],
+          nameController.text,
+          addressController.text,
+          phoneNumberController.text,
+          emailController.text,
         );
-        Navigator.push(
-          // ignore: use_build_context_synchronously
-          context,
-          MaterialPageRoute(
-            builder: (context) => const NewWasteSuccess(),
-          ),
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Customer data updated successfully')),
         );
+        // ignore: use_build_context_synchronously
+        Navigator.pop(context, true);
       } catch (e) {
         setState(() {
           _errorMessage = e.toString().replaceFirst('Exception:', '');
@@ -59,34 +74,58 @@ class _AddWasteState extends State<AddWaste> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                'Tambah\nJenis Sampah',
+                'Edit Data Nasabah',
                 style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
                 ),
+                textAlign: TextAlign.center,
               ),
               const SizedBox(height: 30),
               const Text(
-                'Nama Jenis',
+                'Nama',
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(height: 10),
-              WasteAppTextFields(
-                hintText: 'Tulis Nama Jenis Sampah',
-                controller: wasteTypeController,
+              WasteAppTextFieldsCustomer(
+                hintText: 'Tulis nama nasabah disini',
+                controller: nameController,
               ),
               const SizedBox(height: 30),
               const Text(
-                'Harga @100gram (ons)',
+                'Email',
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 10),
+              WasteAppTextFieldsCustomer(
+                hintText: 'Tulis nama nasabah disini',
+                controller: emailController,
+              ),
+              const SizedBox(height: 30),
+              const Text(
+                'Alamat',
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 10),
+              AddressWidgetTextField(
+                hintText: 'Alamat Nasabah',
+                controller: addressController,
+              ),
+              const SizedBox(height: 30),
+              const Text(
+                'Nomor Telepon',
                 style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
               WasteAppTextFieldsCustomer(
-                hintText: 'Isi Harga disini',
-                controller: priceController,
+                hintText: '08XXXXXXXXXX',
+                controller: phoneNumberController,
                 textInputTypeNumber: true,
                 lengthLimit: true,
               ),
@@ -98,7 +137,7 @@ class _AddWasteState extends State<AddWaste> {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-              const SizedBox(height: 50),
+              const SizedBox(height: 30),
               Center(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -106,9 +145,7 @@ class _AddWasteState extends State<AddWaste> {
                     SizedBox(
                       width: 150,
                       child: TextButton(
-                        onPressed: () {
-                          _newWaste();
-                        },
+                        onPressed: _updateCustomer,
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(
                             const Color(0xFF7ABA78),
@@ -120,7 +157,7 @@ class _AddWasteState extends State<AddWaste> {
                           ),
                         ),
                         child: const Text(
-                          'Tambah',
+                          'Update Data',
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -157,6 +194,7 @@ class _AddWasteState extends State<AddWaste> {
                   ],
                 ),
               ),
+              const SizedBox(height: 30),
             ],
           ),
         ),

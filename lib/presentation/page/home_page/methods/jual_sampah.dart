@@ -1,51 +1,51 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:waste_app/domain/customers.dart';
+import 'package:waste_app/domain/waste.dart';
+import 'package:waste_app/presentation/page/saving_page/result/new_waste_success.dart';
+import 'package:http/http.dart' as http;
 import 'package:waste_app/presentation/widgets/address_widget_textfield.dart';
-import 'package:waste_app/presentation/widgets/text_fields_customers.dart';
 
-class EditCustomerScreen extends StatefulWidget {
-  final Map<String, dynamic> nasabah;
-
-  const EditCustomerScreen({super.key, required this.nasabah});
+class SellWaste extends StatefulWidget {
+  const SellWaste({super.key});
 
   @override
-  State<EditCustomerScreen> createState() => _EditCustomerScreenState();
+  State<SellWaste> createState() => _SellWasteState();
 }
 
-class _EditCustomerScreenState extends State<EditCustomerScreen> {
+class _SellWasteState extends State<SellWaste> {
   final _formKey = GlobalKey<FormState>();
-  late TextEditingController nameController;
-  late TextEditingController addressController;
-  late TextEditingController phoneNumberController;
+  TextEditingController priceController = TextEditingController();
+  TextEditingController noteController = TextEditingController();
+
+  String? selectedWasteType;
+  List<Map<String, String>> wasteTypes = [];
   String? _errorMessage;
 
-  final Customer _customer = Customer();
+  final Waste _waste = Waste();
 
   @override
   void initState() {
     super.initState();
-    nameController = TextEditingController(text: widget.nasabah['name'] ?? '');
-    addressController =
-        TextEditingController(text: widget.nasabah['address'] ?? '');
-    phoneNumberController =
-        TextEditingController(text: widget.nasabah['phoneNumber'] ?? '');
+    fetchWasteTypes();
   }
 
-  Future<void> _updateCustomer() async {
+  Future<void> _sellWaste() async {
     EasyLoading.show(status: 'Loading');
     if (_formKey.currentState!.validate()) {
       try {
-        await _customer.updateCustomer(
-          widget.nasabah['id'],
-          nameController.text,
-          addressController.text,
-          phoneNumberController.text,
+        // ignore: unused_local_variable
+        final response = await _waste.sellWaste(selectedWasteType!,
+            double.parse(priceController.text), noteController.text);
+        Navigator.push(
+          // ignore: use_build_context_synchronously
+          context,
+          MaterialPageRoute(
+            builder: (context) => const NewWasteSuccess(),
+          ),
         );
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Customer data updated successfully')),
-        );
-        Navigator.pop(context, true);
       } catch (e) {
         setState(() {
           _errorMessage = e.toString().replaceFirst('Exception:', '');
@@ -53,6 +53,28 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
       }
     }
     EasyLoading.dismiss();
+  }
+
+  Future<void> fetchWasteTypes() async {
+    final response = await http.get(Uri.parse(
+        '${dotenv.env['BASE_URL_BACKEND']}/wastetypes')); // Replace with your API URL
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = json.decode(response.body);
+      setState(() {
+        wasteTypes = data
+            .map((e) => {
+                  'id': e['id'] as String,
+                  'name': e['name'] as String,
+                })
+            .toList();
+        wasteTypes.sort((a, b) => a['name']!.compareTo(b['name']!));
+      });
+    } else {
+      setState(() {
+        _errorMessage = 'Failed to load waste types';
+      });
+    }
   }
 
   @override
@@ -67,48 +89,69 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                'Edit Data Nasabah',
+                'Jual/Setor\nSetor Sampah',
                 style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
                 ),
-                textAlign: TextAlign.center,
               ),
               const SizedBox(height: 30),
               const Text(
-                'Nama',
+                'Nama Jenis',
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(height: 10),
-              WasteAppTextFieldsCustomer(
-                hintText: 'Tulis nama nasabah disini',
-                controller: nameController,
+              DropdownButtonFormField<String>(
+                value: selectedWasteType,
+                hint: const Text('Pilih Nama Jenis Sampah'),
+                items: wasteTypes.map((Map<String, String> wasteType) {
+                  return DropdownMenuItem<String>(
+                    value: wasteType['id'],
+                    child: Text(wasteType['name']!),
+                  );
+                }).toList(),
+                onChanged: (newValue) {
+                  setState(() {
+                    selectedWasteType = newValue;
+                  });
+                },
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please select a waste type';
+                  }
+                  return null;
+                },
               ),
               const SizedBox(height: 30),
               const Text(
-                'Alamat',
+                'Jumlah (Kg)',
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 10),
+              TextFormField(
+                controller: priceController,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  hintText: 'Isi Jumlah disini',
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter a quantity';
+                  }
+                  return null;
+                },
+              ),
+              const Text(
+                'Catatan',
                 style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
               AddressWidgetTextField(
-                hintText: 'Alamat Nasabah',
-                controller: addressController,
-              ),
-              const SizedBox(height: 30),
-              const Text(
-                'Nomor Telepon',
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 10),
-              WasteAppTextFieldsCustomer(
-                hintText: '08XXXXXXXXXX',
-                controller: phoneNumberController,
-                textInputTypeNumber: true,
-                lengthLimit: true,
-              ),
+                  hintText: 'Isi Catatan Jual disini',
+                  controller: noteController),
               if (_errorMessage != null)
                 Text(
                   _errorMessage!,
@@ -125,7 +168,9 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                     SizedBox(
                       width: 150,
                       child: TextButton(
-                        onPressed: _updateCustomer,
+                        onPressed: () {
+                          _sellWaste();
+                        },
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(
                             const Color(0xFF7ABA78),
@@ -137,7 +182,7 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                           ),
                         ),
                         child: const Text(
-                          'Update Data',
+                          'Jual',
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:waste_app/domain/customers.dart';
-import 'package:waste_app/presentation/page/customers_page/methods/detail/edit_customers.dart';
+import 'package:waste_app/presentation/page/customers_page/methods/list_customers/edit_customers.dart';
 
 class DetailCustomer extends StatelessWidget {
   final Map<String, dynamic> nasabah;
 
   const DetailCustomer({Key? key, required this.nasabah}) : super(key: key);
 
+// HAPUS CUSTOMER
   void _deleteCustomer(BuildContext context) async {
     bool? confirmed = await showDialog(
       context: context,
@@ -80,13 +81,15 @@ class DetailCustomer extends StatelessWidget {
         );
       },
     );
-
+// FUNGSI PEMANGGILAN API TERHADAP KODE DIATAS
     if (confirmed == true) {
       EasyLoading.show(status: 'loading');
       try {
         await Customer().deleteCustomer(nasabah['id']);
+        // ignore: use_build_context_synchronously
         Navigator.pop(context, true);
       } catch (e) {
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Failed to delete customer: $e')),
         );
@@ -95,6 +98,7 @@ class DetailCustomer extends StatelessWidget {
     EasyLoading.dismiss();
   }
 
+// EDIT NASABAH
   void _editCustomer(BuildContext context) async {
     final result = await Navigator.push(
       context,
@@ -104,6 +108,7 @@ class DetailCustomer extends StatelessWidget {
     );
     // Buat Refresh list
     if (result == true) {
+      // ignore: use_build_context_synchronously
       Navigator.pop(context, true);
     }
   }
@@ -134,6 +139,15 @@ class DetailCustomer extends StatelessWidget {
             ),
             const SizedBox(height: 5),
             Text('${nasabah['name']}'),
+            const SizedBox(height: 20),
+            const Text(
+              'Email',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
+            ),
+            Text('${nasabah['email']}'),
             const SizedBox(height: 20),
             const Text(
               'Alamat',

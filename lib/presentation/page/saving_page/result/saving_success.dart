@@ -28,7 +28,7 @@ class SavingSuccess extends StatelessWidget {
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 25),
             child: Text(
-              'Transaksi nasabah berhasil, hasil transaksi akan terkirim ke nasabah dan tercatat oleh sistem',
+              'Transaksi nasabah berhasil, hasil transaksi telah tercatat oleh sistem',
               textAlign: TextAlign.center,
             ),
           ),

@@ -66,7 +66,7 @@ class SavingPageScreen extends StatelessWidget {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) =>
-                                            SavingWasteScreen(),
+                                            const SavingWasteScreen(),
                                       ));
                                 },
                                 icon: const Icon(Icons.system_update_tv_rounded,

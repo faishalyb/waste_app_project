@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:waste_app/presentation/page/customers_page/customers_page.dart';
 import 'package:waste_app/presentation/page/home_page/home_page.dart';
 import 'package:waste_app/presentation/page/profile_page/profile_page.dart';
@@ -7,7 +6,6 @@ import 'package:waste_app/presentation/page/saving_page/saving_page_screen.dart'
 import 'package:waste_app/presentation/page/waste_detection/waste_detection.dart';
 import 'package:waste_app/presentation/widgets/bottom_navbar.dart';
 import 'package:waste_app/presentation/widgets/bottom_navbar_item.dart';
-import 'package:waste_app/presentation/widgets/floating_icon_button.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({
@@ -32,6 +30,7 @@ class _MainPageState extends State<MainPage> {
       body: Stack(
         children: [
           PageView(
+            // PAGEVIEW MENONAKTIFKAN SCROLL
             physics: const NeverScrollableScrollPhysics(),
             controller: pageController,
             onPageChanged: (value) => setState(() {
@@ -83,6 +82,7 @@ class _MainPageState extends State<MainPage> {
                   image: 'assets/png/profil_hitam.png',
                   selectedImage: 'assets/png/profil.png'),
             ],
+            // ignore: non_constant_identifier_names
             onTap: (Index) {
               selectedPage = Index;
               pageController.animateToPage(selectedPage,
@@ -94,21 +94,27 @@ class _MainPageState extends State<MainPage> {
           ),
           Positioned(
             bottom: 10,
-            left: (MediaQuery.of(context).size.width - 69) /
-                2, // Calculation for horizontal centering
-            child: FloatingIconButton(
-              iconSize: 50, // Adjust icon size
-              iconData: Icons.qr_code_scanner_rounded,
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const WasteDetection(),
-                    ));
-              },
-              color: const Color(0xff7ABA78),
+            left: MediaQuery.of(context).size.width / 2 - 33,
+            child: SizedBox(
+              height: 70,
+              width: 70,
+              child: FloatingActionButton(
+                backgroundColor: const Color(0xff7ABA78),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const WasteDetection(),
+                      ));
+                },
+                shape: const CircleBorder(),
+                child: Image.asset(
+                  'assets/png/scan.png',
+                  width: 40,
+                ),
+              ),
             ),
-          ),
+          )
         ],
       ),
     );

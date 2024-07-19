@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:waste_app/domain/authentication.dart';
-import 'package:waste_app/presentation/page/login_page/login_screen.dart';
+import 'package:waste_app/presentation/page/register_page/result/register_success.dart';
 import 'package:waste_app/presentation/page/welcoming_page/welcoming_page.dart';
 import 'package:waste_app/presentation/widgets/text_fields.dart';
 
@@ -32,11 +32,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
           confPassword.text,
           usernameController.text,
         );
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Registration successful')));
         Navigator.pushReplacement(
+          // ignore: use_build_context_synchronously
           context,
-          MaterialPageRoute(builder: (context) => const LoginScreen()),
+          MaterialPageRoute(
+            builder: (context) => const RegisterSuccess(),
+          ),
         );
       } catch (e) {
         setState(() {
@@ -160,14 +161,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                         ),
                       ),
-                      minimumSize: MaterialStateProperty.all(const Size(
-                          350, 50)), // Set your custom width and height
+                      minimumSize: MaterialStateProperty.all(
+                        const Size(350, 50),
+                      ),
                     ),
-                    child: const Text("Daftar",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600)),
+                    child: const Text(
+                      "Daftar",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600),
+                    ),
                   ),
                 ],
               ),

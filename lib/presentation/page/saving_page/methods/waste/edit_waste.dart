@@ -25,7 +25,7 @@ class _EditWasteState extends State<EditWaste> {
     super.initState();
     nameController = TextEditingController(text: widget.sampah['name'] ?? '');
     priceController = TextEditingController(
-        text: widget.sampah['pricePerGram']?.toString() ?? '');
+        text: widget.sampah['pricePer100Gram']?.toString() ?? '');
   }
 
   Future<void> _updateWaste() async {
@@ -37,13 +37,15 @@ class _EditWasteState extends State<EditWaste> {
           nameController.text,
           priceController.text,
         );
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Waste Updated successfully')),
         );
+        // ignore: use_build_context_synchronously
         Navigator.pop(context, {
           'id': widget.sampah['id'],
           'name': nameController.text,
-          'pricePerGram': priceController.text,
+          'pricePer100Gram': priceController.text,
         });
       } catch (e) {
         setState(() {

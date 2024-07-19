@@ -77,7 +77,7 @@ class _ImageSliderState extends State<ImageSlider> {
       height: 10,
       width: _currentIndex == index ? 20 : 10,
       decoration: BoxDecoration(
-        color: _currentIndex == index ? Color(0xFF7FB77E) : Colors.grey,
+        color: _currentIndex == index ? const Color(0xFF7FB77E) : Colors.grey,
         borderRadius: BorderRadius.circular(7),
       ),
     );

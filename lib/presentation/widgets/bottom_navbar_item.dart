@@ -31,7 +31,7 @@ class BottomNavbarItem extends StatelessWidget {
           style: TextStyle(
             fontSize: 10,
             fontWeight: FontWeight.bold,
-            color: isSelected ? Colors.green : Color(0xff4F4F4F),
+            color: isSelected ? Colors.green : const Color(0xff4F4F4F),
           ),
         ),
       ],

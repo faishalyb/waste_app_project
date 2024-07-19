@@ -1,41 +1,50 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:waste_app/domain/waste.dart';
-import 'package:waste_app/presentation/page/saving_page/result/new_waste_success.dart';
-import 'package:waste_app/presentation/widgets/text_fields.dart';
-import 'package:waste_app/presentation/widgets/text_fields_customers.dart';
+import 'package:waste_app/domain/customers.dart';
+import 'package:waste_app/presentation/page/customers_page/result/new_customers_success.dart';
+import 'package:http/http.dart' as http;
 
-// ignore: must_be_immutable
-class AddWaste extends StatefulWidget {
-  const AddWaste({super.key});
+class LiquidityCustomers extends StatefulWidget {
+  const LiquidityCustomers({super.key});
 
   @override
-  State<AddWaste> createState() => _AddWasteState();
+  State<LiquidityCustomers> createState() => _LiquidityCustomersState();
 }
 
-class _AddWasteState extends State<AddWaste> {
+class _LiquidityCustomersState extends State<LiquidityCustomers> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController wasteTypeController = TextEditingController();
-  TextEditingController priceController = TextEditingController();
+  TextEditingController amountController = TextEditingController();
+  TextEditingController noteController = TextEditingController();
+
+  String? selectedCustomer;
+  List<Map<String, String>> customers = [];
   String? _errorMessage;
 
-  final Waste _waste = Waste();
+  final Customer _customer = Customer();
 
-// MENAMBAHKAN JENIS SAMPAH
-  Future<void> _newWaste() async {
+  @override
+  void initState() {
+    super.initState();
+    fetchCustomers();
+  }
+
+  Future<void> _liquidityCustomer() async {
     EasyLoading.show(status: 'Loading');
     if (_formKey.currentState!.validate()) {
       try {
         // ignore: unused_local_variable
-        final response = await _waste.newWaste(
-          wasteTypeController.text,
-          priceController.text,
+        final response = await _customer.liquidityCustomer(
+          selectedCustomer!,
+          double.parse(amountController.text),
+          noteController.text,
         );
         Navigator.push(
           // ignore: use_build_context_synchronously
           context,
           MaterialPageRoute(
-            builder: (context) => const NewWasteSuccess(),
+            builder: (context) => const NewCustomerSuccess(),
           ),
         );
       } catch (e) {
@@ -45,6 +54,28 @@ class _AddWasteState extends State<AddWaste> {
       }
     }
     EasyLoading.dismiss();
+  }
+
+  Future<void> fetchCustomers() async {
+    final response = await http.get(Uri.parse(
+        '${dotenv.env['BASE_URL_BACKEND']}/nasabah')); // Replace with your API URL
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = json.decode(response.body);
+      setState(() {
+        customers = data
+            .map((e) => {
+                  'id': e['id'] as String,
+                  'name': e['name'] as String,
+                })
+            .toList();
+        customers.sort((a, b) => a['name']!.compareTo(b['name']!));
+      });
+    } else {
+      setState(() {
+        _errorMessage = 'Failed to load customers';
+      });
+    }
   }
 
   @override
@@ -59,7 +90,7 @@ class _AddWasteState extends State<AddWaste> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                'Tambah\nJenis Sampah',
+                'Penarikan \nSaldo Nasabah',
                 style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
@@ -67,28 +98,69 @@ class _AddWasteState extends State<AddWaste> {
               ),
               const SizedBox(height: 30),
               const Text(
-                'Nama Jenis',
+                'Nama Nasabah',
                 style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(height: 10),
-              WasteAppTextFields(
-                hintText: 'Tulis Nama Jenis Sampah',
-                controller: wasteTypeController,
+              DropdownButtonFormField<String>(
+                value: selectedCustomer,
+                hint: const Text('Pilih Nama Nasabah'),
+                items: customers.map((Map<String, String> customer) {
+                  return DropdownMenuItem<String>(
+                    value: customer['name'],
+                    child: Text(customer['name']!),
+                  );
+                }).toList(),
+                onChanged: (newValue) {
+                  setState(() {
+                    selectedCustomer = newValue;
+                  });
+                },
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please select a customer';
+                  }
+                  return null;
+                },
               ),
               const SizedBox(height: 30),
               const Text(
-                'Harga @100gram (ons)',
+                'Jumlah (Rp)',
                 style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
-              WasteAppTextFieldsCustomer(
-                hintText: 'Isi Harga disini',
-                controller: priceController,
-                textInputTypeNumber: true,
-                lengthLimit: true,
+              TextFormField(
+                controller: amountController,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  hintText: 'Isi Jumlah disini',
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter an amount';
+                  }
+                  return null;
+                },
+              ),
+              const Text(
+                'Catatan',
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 10),
+              TextFormField(
+                controller: noteController,
+                decoration: const InputDecoration(
+                  hintText: 'Isi Catatan disini',
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter a note';
+                  }
+                  return null;
+                },
               ),
               if (_errorMessage != null)
                 Text(
@@ -107,7 +179,7 @@ class _AddWasteState extends State<AddWaste> {
                       width: 150,
                       child: TextButton(
                         onPressed: () {
-                          _newWaste();
+                          _liquidityCustomer();
                         },
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(
@@ -120,7 +192,7 @@ class _AddWasteState extends State<AddWaste> {
                           ),
                         ),
                         child: const Text(
-                          'Tambah',
+                          'Tarik Saldo',
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,

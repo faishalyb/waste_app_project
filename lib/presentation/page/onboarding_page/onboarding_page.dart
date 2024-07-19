@@ -3,14 +3,14 @@ import 'package:flutter_svg/svg.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:waste_app/presentation/page/welcoming_page/welcoming_page.dart';
 
-class Onboarding_Screen extends StatefulWidget {
-  const Onboarding_Screen({super.key});
+class OnboardingScreen extends StatefulWidget {
+  const OnboardingScreen({super.key});
 
   @override
-  State<Onboarding_Screen> createState() => _Onboarding_ScreenState();
+  State<OnboardingScreen> createState() => _OnboardingScreenState();
 }
 
-class _Onboarding_ScreenState extends State<Onboarding_Screen> {
+class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
@@ -94,25 +94,29 @@ class _Onboarding_ScreenState extends State<Onboarding_Screen> {
                   right: 0,
                   bottom: 180,
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 90),
+                    padding: const EdgeInsets.symmetric(horizontal: 90),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         TextButton(
                           style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(Color(0xFF7FB77E)),
+                            backgroundColor: MaterialStateProperty.all(
+                              const Color(0xFF7FB77E),
+                            ),
                             shape: MaterialStateProperty.all(
-                                RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10)))),
-                            fixedSize: MaterialStateProperty.all(
-                                Size(100, 40)), // Set custom width and height
+                              const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
+                              ),
+                            ),
+                            fixedSize: MaterialStateProperty.all(const Size(
+                                100, 40)), // Set custom width and height
                           ),
                           onPressed: () {
                             if (_currentPage < 2) {
                               _pageController.nextPage(
-                                  duration: Duration(milliseconds: 1000),
+                                  duration: const Duration(milliseconds: 1000),
                                   curve: Curves.ease);
                             } else {
                               Navigator.pushReplacement(
@@ -120,7 +124,7 @@ class _Onboarding_ScreenState extends State<Onboarding_Screen> {
                                 PageRouteBuilder(
                                   pageBuilder: (context, animation,
                                           secondaryAnimation) =>
-                                      WelcomingPage(),
+                                      const WelcomingPage(),
                                   transitionsBuilder: (context, animation,
                                       secondaryAnimation, child) {
                                     const begin = Offset(1.0, 0.0);
