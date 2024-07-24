@@ -89,7 +89,7 @@ class AboutScreen extends StatelessWidget {
         ),
       ),
       bottomSheet: const Padding(
-        padding: EdgeInsets.all(10),
+        padding: EdgeInsets.fromLTRB(10, 10, 10, 5),
         child: Text(
           '© 2024 Rancang Bangun Aplikasi Bank Sampah berbasis Mobile Menggunakan Metode Object Detection\n',
           textAlign: TextAlign.center,

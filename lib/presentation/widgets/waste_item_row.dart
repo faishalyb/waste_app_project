@@ -151,7 +151,7 @@ class _WasteItemRowState extends State<WasteItemRow> {
                       color: const Color(0xffeeeeee),
                     ),
                     child: SizedBox(
-                      width: 185,
+                      width: 195,
                       child: TextField(
                         style: const TextStyle(fontSize: 14),
                         controller: wasteTypeController,
@@ -189,7 +189,7 @@ class _WasteItemRowState extends State<WasteItemRow> {
               color: const Color(0xffeeeeee),
             ),
             child: SizedBox(
-              width: 60,
+              width: 70,
               child: TextField(
                 controller: amountController,
                 keyboardType:

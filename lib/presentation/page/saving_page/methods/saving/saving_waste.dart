@@ -500,7 +500,7 @@ class _SavingWasteScreenState extends State<SavingWasteScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(
-                  width: 180,
+                  width: 160,
                   child: Text(
                     'Jenis Sampah',
                     style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
@@ -514,7 +514,7 @@ class _SavingWasteScreenState extends State<SavingWasteScreen> {
                   ),
                 ),
                 SizedBox(
-                  width: 80,
+                  width: 90,
                   child: Text(
                     'Harga',
                     style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),

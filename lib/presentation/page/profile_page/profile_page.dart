@@ -117,7 +117,7 @@ class ProfilePage extends StatelessWidget {
           children: [
             Positioned(
               top: -40,
-              bottom: 500,
+              bottom: 550,
               left: 0,
               right: 0,
               child: Image.asset(
@@ -329,6 +329,7 @@ class ProfilePage extends StatelessWidget {
                       ),
                     ),
                   ),
+                  const SizedBox(height: 50)
                 ],
               ),
             ),
