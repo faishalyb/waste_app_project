@@ -117,9 +117,9 @@ class _EditWasteState extends State<EditWaste> {
                       child: TextButton(
                         onPressed: _updateWaste,
                         style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(
-                              const Color(0xFF7ABA78)),
-                          shape: MaterialStateProperty.all(
+                          backgroundColor:
+                              WidgetStateProperty.all(const Color(0xFF7ABA78)),
+                          shape: WidgetStateProperty.all(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
@@ -142,9 +142,9 @@ class _EditWasteState extends State<EditWaste> {
                           Navigator.pop(context);
                         },
                         style: ButtonStyle(
-                          side: MaterialStateProperty.all(
+                          side: WidgetStateProperty.all(
                               const BorderSide(color: Colors.red, width: 2.5)),
-                          shape: MaterialStateProperty.all(
+                          shape: WidgetStateProperty.all(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),

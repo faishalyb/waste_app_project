@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 import 'package:waste_app/domain/waste.dart';
 
 class WasteHistory extends StatefulWidget {
@@ -76,80 +77,95 @@ class _WasteHistoryState extends State<WasteHistory> {
           Expanded(
             child: isLoading
                 ? const Center(child: CircularProgressIndicator())
-                : errorMessage != null
-                    ? Center(child: Text('Error: $errorMessage'))
-                    : wastes.isEmpty
-                        ? const Center(child: Text('No nasabah found'))
-                        : ListView.builder(
-                            itemCount: wastes.length,
-                            itemBuilder: (context, index) {
-                              final waste = wastes[index];
-                              DateTime date = DateTime.parse(waste['date']);
-                              String formattedDate =
-                                  DateFormat('yyyy-MM-dd HH:mm:ss')
-                                      .format(date);
-                              String wasteTypeName =
-                                  waste['wasteTypeName'] ?? 'Unknown';
+                : wastes.isEmpty
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 30),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Center(
+                              child: Lottie.network(
+                                'https://lottie.host/495775b6-a6cb-4731-8323-6d53680088c4/6q4qGAIhJV.json',
+                                width: 250,
+                                height: 250,
+                              ),
+                            ),
+                            Text(
+                              '$errorMessage',
+                              textAlign: TextAlign.center,
+                            )
+                          ],
+                        ),
+                      )
+                    : ListView.builder(
+                        itemCount: wastes.length,
+                        itemBuilder: (context, index) {
+                          final waste = wastes[index];
+                          DateTime date = DateTime.parse(waste['date']);
+                          String formattedDate =
+                              DateFormat('yyyy-MM-dd HH:mm:ss').format(date);
+                          String wasteTypeName =
+                              waste['wasteTypeName'] ?? 'Unknown';
 
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.fromLTRB(
-                                        25, 15, 25, 0),
-                                    child: Container(
-                                      padding: const EdgeInsets.all(15),
-                                      decoration: const BoxDecoration(
-                                        color: Color(0xffF6F4BD),
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(10),
-                                        ),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(25, 15, 25, 0),
+                                child: Container(
+                                  padding: const EdgeInsets.all(15),
+                                  decoration: const BoxDecoration(
+                                    color: Color(0xffF6F4BD),
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(10),
+                                    ),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                wasteTypeName,
-                                                style: const TextStyle(
-                                                  fontSize: 17,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                              Text(
-                                                'Tanggal: $formattedDate',
-                                                style: const TextStyle(
-                                                  fontSize: 15,
-                                                ),
-                                              ),
-                                              Text(
-                                                'Jumlah Keluar: ${double.parse(waste['amount'].toString()).toStringAsFixed(1)} Kg',
-                                                style: const TextStyle(
-                                                  fontSize: 15,
-                                                ),
-                                              ),
-                                              Text(
-                                                'Catatan: ${(waste['note'])}',
-                                                style: const TextStyle(
-                                                  fontSize: 15,
-                                                ),
-                                              ),
-                                            ],
+                                          Text(
+                                            wasteTypeName,
+                                            style: const TextStyle(
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Text(
+                                            'Tanggal: $formattedDate',
+                                            style: const TextStyle(
+                                              fontSize: 15,
+                                            ),
+                                          ),
+                                          Text(
+                                            'Jumlah Keluar: ${double.parse(waste['amount'].toString()).toStringAsFixed(1)} Kg',
+                                            style: const TextStyle(
+                                              fontSize: 15,
+                                            ),
+                                          ),
+                                          Text(
+                                            'Catatan: ${(waste['note'])}',
+                                            style: const TextStyle(
+                                              fontSize: 15,
+                                            ),
                                           ),
                                         ],
                                       ),
-                                    ),
+                                    ],
                                   ),
-                                  if (index == wastes.length - 1)
-                                    const SizedBox(height: 20)
-                                ],
-                              );
-                            },
-                          ),
+                                ),
+                              ),
+                              if (index == wastes.length - 1)
+                                const SizedBox(height: 20)
+                            ],
+                          );
+                        },
+                      ),
           ),
         ],
       ),

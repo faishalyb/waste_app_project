@@ -45,10 +45,10 @@ class ProfilePage extends StatelessWidget {
                   Navigator.of(context).pop(true);
                 },
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(
+                  backgroundColor: WidgetStateProperty.all(
                     const Color(0xffE66776),
                   ),
-                  shape: MaterialStateProperty.all(
+                  shape: WidgetStateProperty.all(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -70,9 +70,9 @@ class ProfilePage extends StatelessWidget {
                   Navigator.of(context).pop(false);
                 },
                 style: ButtonStyle(
-                  side: MaterialStateProperty.all(
+                  side: WidgetStateProperty.all(
                       const BorderSide(color: Colors.black, width: 2.5)),
-                  shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                  shape: WidgetStateProperty.all(RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   )),
                 ),
@@ -160,13 +160,13 @@ class ProfilePage extends StatelessWidget {
                     child: OutlinedButton.icon(
                       style: ButtonStyle(
                         backgroundColor:
-                            MaterialStateProperty.all(const Color(0xffF6F4BD)),
-                        side: MaterialStateProperty.all(
+                            WidgetStateProperty.all(const Color(0xffF6F4BD)),
+                        side: WidgetStateProperty.all(
                           const BorderSide(
                             color: Color(0xffF6F4BD),
                           ),
                         ),
-                        shape: MaterialStateProperty.all(
+                        shape: WidgetStateProperty.all(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -209,13 +209,13 @@ class ProfilePage extends StatelessWidget {
                     child: OutlinedButton.icon(
                       style: ButtonStyle(
                         backgroundColor:
-                            MaterialStateProperty.all(const Color(0xffF6F4BD)),
-                        side: MaterialStateProperty.all(
+                            WidgetStateProperty.all(const Color(0xffF6F4BD)),
+                        side: WidgetStateProperty.all(
                           const BorderSide(
                             color: Color(0xffF6F4BD),
                           ),
                         ),
-                        shape: MaterialStateProperty.all(
+                        shape: WidgetStateProperty.all(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -259,13 +259,13 @@ class ProfilePage extends StatelessWidget {
                     child: OutlinedButton.icon(
                       style: ButtonStyle(
                         backgroundColor:
-                            MaterialStateProperty.all(const Color(0xffF6F4BD)),
-                        side: MaterialStateProperty.all(
+                            WidgetStateProperty.all(const Color(0xffF6F4BD)),
+                        side: WidgetStateProperty.all(
                           const BorderSide(
                             color: Color(0xffF6F4BD),
                           ),
                         ),
-                        shape: MaterialStateProperty.all(
+                        shape: WidgetStateProperty.all(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -310,10 +310,10 @@ class ProfilePage extends StatelessWidget {
                           _logout(context);
                         },
                         style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(
+                          backgroundColor: WidgetStateProperty.all(
                             const Color(0xffD96B78),
                           ),
-                          shape: MaterialStateProperty.all(
+                          shape: WidgetStateProperty.all(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),

@@ -174,15 +174,15 @@ class _WasteDetectionState extends State<WasteDetection> {
                         height: 45,
                         child: OutlinedButton.icon(
                           style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
+                            backgroundColor: WidgetStateProperty.all(
                                 const Color(0xff7ABA78)),
-                            side: MaterialStateProperty.all(
+                            side: WidgetStateProperty.all(
                               const BorderSide(
                                 color: Color(0xff7ABA78),
                                 width: 2,
                               ),
                             ),
-                            shape: MaterialStateProperty.all(
+                            shape: WidgetStateProperty.all(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),
@@ -210,14 +210,14 @@ class _WasteDetectionState extends State<WasteDetection> {
                         child: OutlinedButton.icon(
                           style: ButtonStyle(
                             backgroundColor:
-                                MaterialStateProperty.all(Colors.transparent),
-                            side: MaterialStateProperty.all(
+                                WidgetStateProperty.all(Colors.transparent),
+                            side: WidgetStateProperty.all(
                               const BorderSide(
                                 color: Color(0xff7ABA78),
                                 width: 2,
                               ),
                             ),
-                            shape: MaterialStateProperty.all(
+                            shape: WidgetStateProperty.all(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),

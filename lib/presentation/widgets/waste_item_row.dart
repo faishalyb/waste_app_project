@@ -151,9 +151,9 @@ class _WasteItemRowState extends State<WasteItemRow> {
                       color: const Color(0xffeeeeee),
                     ),
                     child: SizedBox(
-                      width: 195,
+                      width: MediaQuery.of(context).size.width / 2.5,
                       child: TextField(
-                        style: const TextStyle(fontSize: 14),
+                        style: const TextStyle(fontSize: 12),
                         controller: wasteTypeController,
                         decoration: InputDecoration(
                           hintText: 'Pilih Sampah',
@@ -182,14 +182,14 @@ class _WasteItemRowState extends State<WasteItemRow> {
               );
             },
           ),
-          const SizedBox(width: 5),
+          const SizedBox(width: 3),
           Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: const Color(0xffeeeeee),
             ),
             child: SizedBox(
-              width: 70,
+              width: MediaQuery.of(context).size.width / 8,
               child: TextField(
                 controller: amountController,
                 keyboardType:
@@ -223,14 +223,12 @@ class _WasteItemRowState extends State<WasteItemRow> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 10),
-            child: SizedBox(
-              width: 80,
-              child: Text(
-                'Rp${formatter.format(calculateTotal())}',
-                textAlign: TextAlign.left,
-              ),
+          const SizedBox(width: 20),
+          SizedBox(
+            width: MediaQuery.of(context).size.width / 4,
+            child: Text(
+              'Rp${formatter.format(calculateTotal())}',
+              textAlign: TextAlign.left,
             ),
           ),
         ],

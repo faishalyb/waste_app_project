@@ -66,6 +66,7 @@ class Authentication {
           passwordController.text,
         );
         // Handle login response
+        // ignore: use_build_context_synchronously
         await handleLoginResponse(response, context);
       } catch (e) {
         // Handle login error
@@ -80,7 +81,7 @@ class Authentication {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('accessToken', response['accessToken']);
     prefs.setString('refreshToken', response['refreshToken']);
-    // Optionally, you can save other user information like username and email
+    // Optionally, simpan yang lain
     prefs.setString('username', response['username']);
     prefs.setString('email', response['email']);
     // Save the access token expiration time
@@ -88,6 +89,7 @@ class Authentication {
         DateTime.now().millisecondsSinceEpoch + (2 * 60 * 1000); // 2 minutes
     prefs.setInt('accessTokenExpiration', accessTokenExpiration);
     // Navigate to the home screen
+    // ignore: use_build_context_synchronously
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (_) => MainPage(

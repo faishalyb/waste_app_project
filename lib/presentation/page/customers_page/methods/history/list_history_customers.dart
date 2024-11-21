@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:waste_app/domain/customers.dart';
 import 'package:waste_app/presentation/page/customers_page/methods/history/detail_history_customers.dart';
 
@@ -25,7 +26,7 @@ class _ListHistoryState extends State<ListHistory> {
   Future<List<dynamic>> _fetchAndSortCustomers() async {
     List<dynamic> customers = await Customer().getHistory();
     // MENGURUTKAN BY TANGGAL NASABAH MENABUNG
-    customers.sort((a, b) => a['date'].compareTo(b['date']));
+    customers.sort((b, a) => a['date'].compareTo(b['date']));
     _allNasabah = customers;
     _filteredNasabah = customers;
     return customers;
@@ -101,10 +102,26 @@ class _ListHistoryState extends State<ListHistory> {
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
-                  } else if (snapshot.hasError) {
-                    return Center(child: Text('Error: ${snapshot.error}'));
-                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return const Center(child: Text('No nasabah found'));
+                  } else if (snapshot.hasError && !snapshot.hasData) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 30),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Center(
+                            child: Lottie.network(
+                              'https://lottie.host/495775b6-a6cb-4731-8323-6d53680088c4/6q4qGAIhJV.json',
+                              width: 250,
+                              height: 250,
+                            ),
+                          ),
+                          Text(
+                            '${snapshot.error}',
+                            textAlign: TextAlign.center,
+                          )
+                        ],
+                      ),
+                    );
                   } else {
                     return RefreshIndicator(
                       onRefresh: _refreshCustomerList,

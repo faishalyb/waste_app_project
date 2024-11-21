@@ -41,10 +41,7 @@ class _MainPageState extends State<MainPage> {
               const SavingPageScreen(),
               const WasteDetection(),
               const CustomersPage(),
-              ProfilePage(
-                username: widget.username,
-                email: widget.email,
-              )
+              ProfilePage(username: widget.username, email: widget.email)
             ],
           ),
           BottomNavbar(

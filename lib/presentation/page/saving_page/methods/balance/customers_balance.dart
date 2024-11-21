@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 import 'package:waste_app/domain/customers.dart';
 import 'package:waste_app/presentation/page/saving_page/methods/balance/riwayat_penarikan.dart';
 import 'package:waste_app/presentation/page/saving_page/methods/balance/tarik_saldo.dart';
@@ -63,62 +64,78 @@ class _CustomersBalanceState extends State<CustomersBalance> {
           Expanded(
             child: isLoading
                 ? const Center(child: CircularProgressIndicator())
-                : errorMessage != null
-                    ? Center(child: Text('Error: $errorMessage'))
-                    : customers.isEmpty
-                        ? const Center(child: Text('No nasabah found'))
-                        : ListView.builder(
-                            itemCount: customers.length,
-                            itemBuilder: (context, index) {
-                              final nasabah = customers[index];
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.fromLTRB(
-                                        25, 15, 25, 0),
-                                    child: Container(
-                                      height: 65,
-                                      decoration: const BoxDecoration(
-                                        color: Color(0xffF6F4BD),
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(10),
-                                        ),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            15, 15, 15, 15),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              nasabah['name'],
-                                              style: const TextStyle(
-                                                fontSize: 17,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                            const SizedBox(
-                                              width: 10,
-                                            ),
-                                            Text(
-                                              'Rp${formatter.format(nasabah['totalBalance'])}',
-                                              style: const TextStyle(
-                                                fontSize: 15,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
+                : customers.isEmpty
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 30),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Center(
+                              child: Lottie.network(
+                                'https://lottie.host/495775b6-a6cb-4731-8323-6d53680088c4/6q4qGAIhJV.json',
+                                width: 250,
+                                height: 250,
+                              ),
+                            ),
+                            Text(
+                              '$errorMessage',
+                              textAlign: TextAlign.center,
+                            )
+                          ],
+                        ),
+                      )
+                    : ListView.builder(
+                        itemCount: customers.length,
+                        itemBuilder: (context, index) {
+                          final nasabah = customers[index];
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(25, 15, 25, 0),
+                                child: Container(
+                                  height: 65,
+                                  decoration: const BoxDecoration(
+                                    color: Color(0xffF6F4BD),
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(10),
                                     ),
                                   ),
-                                  if (index == customers.length - 1)
-                                    const SizedBox(height: 20)
-                                ],
-                              );
-                            },
-                          ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        15, 15, 15, 15),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          nasabah['name'],
+                                          style: const TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        Text(
+                                          'Rp${formatter.format(nasabah['totalBalance'])}',
+                                          style: const TextStyle(
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              if (index == customers.length - 1)
+                                const SizedBox(height: 20)
+                            ],
+                          );
+                        },
+                      ),
           ),
         ],
       ),
@@ -140,8 +157,8 @@ class _CustomersBalanceState extends State<CustomersBalance> {
                       },
                       style: ButtonStyle(
                         backgroundColor:
-                            MaterialStateProperty.all(const Color(0xFF7ABA78)),
-                        shape: MaterialStateProperty.all(
+                            WidgetStateProperty.all(const Color(0xFF7ABA78)),
+                        shape: WidgetStateProperty.all(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -169,10 +186,10 @@ class _CustomersBalanceState extends State<CustomersBalance> {
                         );
                       },
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(
+                        backgroundColor: WidgetStateProperty.all(
                           const Color(0xffE66776),
                         ),
-                        shape: MaterialStateProperty.all(
+                        shape: WidgetStateProperty.all(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),

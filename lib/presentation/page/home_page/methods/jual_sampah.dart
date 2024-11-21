@@ -172,10 +172,10 @@ class _SellWasteState extends State<SellWaste> {
                           _sellWaste();
                         },
                         style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(
+                          backgroundColor: WidgetStateProperty.all(
                             const Color(0xFF7ABA78),
                           ),
-                          shape: MaterialStateProperty.all(
+                          shape: WidgetStateProperty.all(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
@@ -198,10 +198,10 @@ class _SellWasteState extends State<SellWaste> {
                           Navigator.pop(context);
                         },
                         style: ButtonStyle(
-                          side: MaterialStateProperty.all(
+                          side: WidgetStateProperty.all(
                             const BorderSide(color: Colors.red, width: 2.5),
                           ),
-                          shape: MaterialStateProperty.all(
+                          shape: WidgetStateProperty.all(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),

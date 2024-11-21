@@ -147,10 +147,10 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                       child: TextButton(
                         onPressed: _updateCustomer,
                         style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(
+                          backgroundColor: WidgetStateProperty.all(
                             const Color(0xFF7ABA78),
                           ),
-                          shape: MaterialStateProperty.all(
+                          shape: WidgetStateProperty.all(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
@@ -173,10 +173,10 @@ class _EditCustomerScreenState extends State<EditCustomerScreen> {
                           Navigator.pop(context);
                         },
                         style: ButtonStyle(
-                          side: MaterialStateProperty.all(
+                          side: WidgetStateProperty.all(
                             const BorderSide(color: Colors.red, width: 2.5),
                           ),
-                          shape: MaterialStateProperty.all(
+                          shape: WidgetStateProperty.all(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),

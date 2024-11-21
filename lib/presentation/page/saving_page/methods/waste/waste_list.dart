@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:lottie/lottie.dart';
 import 'package:waste_app/domain/waste.dart';
 import 'package:waste_app/presentation/page/saving_page/methods/waste/add_waste.dart';
 import 'package:waste_app/presentation/page/saving_page/methods/waste/edit_waste.dart';
@@ -83,10 +84,10 @@ class _WasteListState extends State<WasteList> {
                   Navigator.of(context).pop(true);
                 },
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(
+                  backgroundColor: WidgetStateProperty.all(
                     const Color(0xffE66776),
                   ),
-                  shape: MaterialStateProperty.all(
+                  shape: WidgetStateProperty.all(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -108,9 +109,9 @@ class _WasteListState extends State<WasteList> {
                   Navigator.of(context).pop(false);
                 },
                 style: ButtonStyle(
-                  side: MaterialStateProperty.all(
+                  side: WidgetStateProperty.all(
                       const BorderSide(color: Colors.black, width: 2.5)),
-                  shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                  shape: WidgetStateProperty.all(RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   )),
                 ),
@@ -165,92 +166,107 @@ class _WasteListState extends State<WasteList> {
           Expanded(
             child: isLoading
                 ? const Center(child: CircularProgressIndicator())
-                : errorMessage != null
-                    ? Center(child: Text('Error: $errorMessage'))
-                    : wastes.isEmpty
-                        ? const Center(child: Text('Tidak Ada Sampah'))
-                        : ListView.builder(
-                            itemCount: wastes.length,
-                            itemBuilder: (context, index) {
-                              final sampah = wastes[index];
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  const SizedBox(height: 15),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 25),
-                                    child: Container(
-                                      height: 85,
-                                      decoration: const BoxDecoration(
-                                        color: Color(0xffF6F4BD),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10)),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            20, 20, 0, 20),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                : wastes.isEmpty
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 30),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Center(
+                              child: Lottie.network(
+                                'https://lottie.host/495775b6-a6cb-4731-8323-6d53680088c4/6q4qGAIhJV.json',
+                                width: 250,
+                                height: 250,
+                              ),
+                            ),
+                            Text(
+                              '$errorMessage',
+                              textAlign: TextAlign.center,
+                            )
+                          ],
+                        ),
+                      )
+                    : ListView.builder(
+                        itemCount: wastes.length,
+                        itemBuilder: (context, index) {
+                          final sampah = wastes[index];
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              const SizedBox(height: 15),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 25),
+                                child: Container(
+                                  height: 85,
+                                  decoration: const BoxDecoration(
+                                    color: Color(0xffF6F4BD),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10)),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        20, 20, 0, 20),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  sampah['name'],
-                                                  style: const TextStyle(
-                                                    fontSize: 17,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                                Text(
-                                                    'Rp${sampah['pricePer100Gram']}/ons')
-                                              ],
+                                            Text(
+                                              sampah['name'],
+                                              style: const TextStyle(
+                                                fontSize: 17,
+                                                fontWeight: FontWeight.bold,
+                                              ),
                                             ),
-                                            Row(
-                                              children: <Widget>[
-                                                IconButton(
-                                                  onPressed: () async {
-                                                    final updatedWaste =
-                                                        await Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            EditWaste(
-                                                                sampah: sampah),
-                                                      ),
-                                                    );
-                                                    if (updatedWaste != null) {
-                                                      _updateWasteList(
-                                                          updatedWaste);
-                                                    }
-                                                  },
-                                                  icon: const Icon(Icons.edit,
-                                                      color: Colors.green),
-                                                ),
-                                                IconButton(
-                                                  onPressed: () {
-                                                    _deleteWaste(
-                                                        context, sampah);
-                                                  },
-                                                  icon: const Icon(Icons.delete,
-                                                      color: Colors.red),
-                                                ),
-                                              ],
+                                            Text(
+                                                'Rp${sampah['pricePer100Gram']}/ons')
+                                          ],
+                                        ),
+                                        Row(
+                                          children: <Widget>[
+                                            IconButton(
+                                              onPressed: () async {
+                                                final updatedWaste =
+                                                    await Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        EditWaste(
+                                                            sampah: sampah),
+                                                  ),
+                                                );
+                                                if (updatedWaste != null) {
+                                                  _updateWasteList(
+                                                      updatedWaste);
+                                                }
+                                              },
+                                              icon: const Icon(Icons.edit,
+                                                  color: Colors.green),
+                                            ),
+                                            IconButton(
+                                              onPressed: () {
+                                                _deleteWaste(context, sampah);
+                                              },
+                                              icon: const Icon(Icons.delete,
+                                                  color: Colors.red),
                                             ),
                                           ],
                                         ),
-                                      ),
+                                      ],
                                     ),
                                   ),
-                                  if (index == wastes.length - 1)
-                                    const SizedBox(height: 50),
-                                ],
-                              );
-                            },
-                          ),
+                                ),
+                              ),
+                              if (index == wastes.length - 1)
+                                const SizedBox(height: 50),
+                            ],
+                          );
+                        },
+                      ),
           ),
         ],
       ),

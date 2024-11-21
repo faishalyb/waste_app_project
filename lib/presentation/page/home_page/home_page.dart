@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:waste_app/domain/waste.dart';
 import 'package:waste_app/presentation/page/home_page/methods/more_articles.dart';
@@ -52,281 +53,297 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Stack(
+          children: [
+            Image.asset('assets/png/bg.png'),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(25, 35, 25, 0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _logo(),
+                  const SizedBox(height: 20),
+                  _dropCover(),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      const Text(
+                        'Artikel',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w700, fontSize: 16),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return const MoreArticles();
+                          }));
+                        },
+                        child: const Text(
+                          'Lihat Semua',
+                          style: TextStyle(
+                            fontSize: 11,
+                            color: Color(0xff7ABA78),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  _launchArticle(),
+                  const SizedBox(height: 20),
+                  const Text('Stok Sampah',
+                      style:
+                          TextStyle(fontWeight: FontWeight.w700, fontSize: 16)),
+                  const SizedBox(height: 10),
+                  _flChart(),
+                  const SizedBox(height: 20),
+                  const Text('Galeri',
+                      style:
+                          TextStyle(fontWeight: FontWeight.w700, fontSize: 16)),
+                  const SizedBox(height: 10),
+                  const ImageSlider(),
+                  const SizedBox(height: 20),
+                  const SizedBox(height: 100),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _logo() {
+    return CircleAvatar(
+      maxRadius: 45,
+      backgroundColor: Colors.transparent,
+      child: Image.asset('assets/png/Logo only.png'),
+    );
+  }
+
+  Widget _dropCover() {
+    return Stack(
+      children: [
+        Image.asset('assets/png/bg1.png'),
+        Positioned(
+          left: 30,
+          bottom: 20,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                _getGreeting(),
+                style: const TextStyle(
+                  fontSize: 18,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w300,
+                ),
+              ),
+              Text(
+                widget.username,
+                style: const TextStyle(
+                  fontSize: 28,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ],
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget _launchArticle() {
+    return SizedBox(
+      height: 135,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: [
+          GestureDetector(
+            onTap: () {
+              _launchUrl1();
+            },
+            child: Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.asset('assets/png/saving_bg1.png'),
+                  ),
+                ),
+                const Positioned(
+                  bottom: 15,
+                  left: 15,
+                  right: 5,
+                  child: Text(
+                    'Jenis Sampah yang Didaur Ulang\ndan Berpotensi Cuan',
+                    style: TextStyle(
+                        fontSize: 13,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              _launchUrl2();
+            },
+            child: Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.asset('assets/png/bg2.png')),
+                ),
+                const Positioned(
+                  bottom: 15,
+                  left: 15,
+                  right: 15,
+                  child: Text(
+                    '7 Jenis Sampah Plastik\nyang bisa Didaur Ulang ',
+                    style: TextStyle(
+                        fontSize: 13,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              _launchUrl3();
+            },
+            child: Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.asset('assets/png/saving_bg2.png'),
+                  ),
+                ),
+                const Positioned(
+                  bottom: 15,
+                  left: 15,
+                  right: 5,
+                  child: Text(
+                    'Manfaat Daur Ulang Sampah\nuntuk Lingkungan dan Ekonomi',
+                    style: TextStyle(
+                        fontSize: 13,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          GestureDetector(
+            onTap: () {
+              _launchUrl4();
+            },
+            child: Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.asset('assets/png/saving_bg3.png'),
+                  ),
+                ),
+                const Positioned(
+                  bottom: 15,
+                  left: 15,
+                  right: 5,
+                  child: Text(
+                    '3 Upaya Daur Ulang Sampah Menjadi Barang Layak Jual',
+                    style: TextStyle(
+                        fontSize: 13,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _flChart() {
     return FutureBuilder<Map<String, dynamic>>(
       future: futureData,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
-        } else if (!snapshot.hasData) {
-          return const Center(child: Text('No data available'));
+        } else if (snapshot.hasError && !snapshot.hasData) {
+          return Lottie.network(
+            'https://lottie.host/495775b6-a6cb-4731-8323-6d53680088c4/6q4qGAIhJV.json',
+            width: 500,
+            height: 150,
+          );
         } else {
           List<dynamic> wasteData = snapshot.data!['wasteAmounts'];
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return const WasteCharts();
+              }));
+            },
+            child: Center(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 5),
+                  child: SizedBox(
+                    height: 200, // Add a height constraint
+                    child: Builder(
+                      builder: (context) {
+                        try {
+                          return PieChart(
+                            PieChartData(
+                              sections:
+                                  List.generate(wasteData.length, (index) {
+                                var data = wasteData[index];
+                                double value = data['totalAmount'].toDouble();
 
-          return Scaffold(
-            body: SingleChildScrollView(
-              child: Stack(
-                children: [
-                  Image.asset('assets/png/bg.png'),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(25, 35, 25, 0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CircleAvatar(
-                          maxRadius: 45,
-                          backgroundColor: Colors.transparent,
-                          child: Image.asset('assets/png/Logo only.png'),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Stack(
-                          children: [
-                            Image.asset('assets/png/bg1.png'),
-                            Positioned(
-                              left: 30,
-                              bottom: 20,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    _getGreeting(),
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w300,
-                                    ),
+                                return PieChartSectionData(
+                                  value: value,
+                                  color: _getColor(index),
+                                  radius: 50,
+                                  title: value.toStringAsFixed(1),
+                                  titleStyle: const TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
                                   ),
-                                  Text(
-                                    widget.username,
-                                    style: const TextStyle(
-                                      fontSize: 28,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                        const SizedBox(height: 20),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            const Text(
-                              'Artikel',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w700, fontSize: 16),
+                                );
+                              }),
+                              sectionsSpace: 2,
+                              centerSpaceRadius: 40,
                             ),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) {
-                                  return const MoreArticles();
-                                }));
-                              },
-                              child: const Text(
-                                'Lihat Semua',
-                                style: TextStyle(
-                                  fontSize: 11,
-                                  color: Color(0xff7ABA78),
-                                ),
-                              ),
+                          );
+                        } catch (e) {
+                          return Center(
+                            child: Text(
+                              'Error loading chart: $e',
+                              style: const TextStyle(color: Colors.red),
                             ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 135,
-                          child: ListView(
-                            scrollDirection: Axis.horizontal,
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  _launchUrl1();
-                                },
-                                child: Stack(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(5.0),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(10),
-                                        child: Image.asset(
-                                            'assets/png/saving_bg1.png'),
-                                      ),
-                                    ),
-                                    const Positioned(
-                                      bottom: 15,
-                                      left: 15,
-                                      right: 5,
-                                      child: Text(
-                                        'Jenis Sampah yang Didaur Ulang\ndan Berpotensi Cuan',
-                                        style: TextStyle(
-                                            fontSize: 13,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  _launchUrl2();
-                                },
-                                child: Stack(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(5.0),
-                                      child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          child: Image.asset(
-                                              'assets/png/bg2.png')),
-                                    ),
-                                    const Positioned(
-                                      bottom: 15,
-                                      left: 15,
-                                      right: 15,
-                                      child: Text(
-                                        '7 Jenis Sampah Plastik\nyang bisa Didaur Ulang ',
-                                        style: TextStyle(
-                                            fontSize: 13,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  _launchUrl3();
-                                },
-                                child: Stack(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(5.0),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(10),
-                                        child: Image.asset(
-                                            'assets/png/saving_bg2.png'),
-                                      ),
-                                    ),
-                                    const Positioned(
-                                      bottom: 15,
-                                      left: 15,
-                                      right: 5,
-                                      child: Text(
-                                        'Manfaat Daur Ulang Sampah\nuntuk Lingkungan dan Ekonomi',
-                                        style: TextStyle(
-                                            fontSize: 13,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  _launchUrl4();
-                                },
-                                child: Stack(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(5.0),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(10),
-                                        child: Image.asset(
-                                            'assets/png/saving_bg3.png'),
-                                      ),
-                                    ),
-                                    const Positioned(
-                                      bottom: 15,
-                                      left: 15,
-                                      right: 5,
-                                      child: Text(
-                                        '3 Upaya Daur Ulang Sampah Menjadi Barang Layak Jual',
-                                        style: TextStyle(
-                                            fontSize: 13,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        const Text(
-                          'Stok Sampah',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w700, fontSize: 16),
-                        ),
-                        const SizedBox(height: 10),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return const WasteCharts();
-                            }));
-                          },
-                          child: Center(
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 5),
-                                child: SizedBox(
-                                  height: 200, // Add a height constraint
-                                  child: PieChart(
-                                    PieChartData(
-                                      sections: List.generate(wasteData.length,
-                                          (index) {
-                                        var data = wasteData[index];
-                                        double value =
-                                            data['totalAmount'].toDouble();
-
-                                        return PieChartSectionData(
-                                          value: value,
-                                          color: _getColor(index),
-                                          radius: 50,
-                                          title: value.toStringAsFixed(1),
-                                          titleStyle: const TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
-                                          ),
-                                        );
-                                      }),
-                                      sectionsSpace: 2,
-                                      centerSpaceRadius: 40,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        const Text(
-                          'Galeri',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w700, fontSize: 16),
-                        ),
-                        const SizedBox(height: 10),
-                        const ImageSlider(),
-                        const SizedBox(height: 20),
-                        const SizedBox(height: 100),
-                      ],
+                          );
+                        }
+                      },
                     ),
                   ),
-                ],
+                ),
               ),
             ),
           );

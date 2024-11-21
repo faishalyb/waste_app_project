@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:waste_app/domain/customers.dart';
 import 'package:waste_app/presentation/page/customers_page/methods/list_customers/detail_customers.dart';
 
@@ -98,11 +99,27 @@ class _ListCustomersState extends State<ListCustomers> {
                 future: futureNasabah,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
-                  } else if (snapshot.hasError) {
-                    return Center(child: Text('Error: ${snapshot.error}'));
-                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return Center(child: Text('No nasabah found'));
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError && !snapshot.hasData) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 30),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Center(
+                            child: Lottie.network(
+                              'https://lottie.host/495775b6-a6cb-4731-8323-6d53680088c4/6q4qGAIhJV.json',
+                              width: 250,
+                              height: 250,
+                            ),
+                          ),
+                          Text(
+                            '${snapshot.error}',
+                            textAlign: TextAlign.center,
+                          )
+                        ],
+                      ),
+                    );
                   } else {
                     return RefreshIndicator(
                       onRefresh: _refreshCustomerList,

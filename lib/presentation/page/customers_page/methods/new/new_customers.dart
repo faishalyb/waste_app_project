@@ -114,7 +114,7 @@ class _NewCustomerScreenState extends State<NewCustomerScreen> {
               ),
               const SizedBox(height: 10),
               WasteAppTextFieldsCustomer(
-                hintText: '08XXXXXXXXXX',
+                hintText: 'format 628XXXXXXXXXX',
                 controller: phoneNumberController,
                 textInputTypeNumber: true,
                 lengthLimit: true,

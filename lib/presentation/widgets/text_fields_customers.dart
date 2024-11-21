@@ -35,7 +35,7 @@ class _WasteAppTextFieldsCustomerState
         controller: widget.controller,
         inputFormatters: [
           widget.lengthLimit
-              ? LengthLimitingTextInputFormatter(12)
+              ? LengthLimitingTextInputFormatter(14)
               : LengthLimitingTextInputFormatter(null)
         ],
         keyboardType: widget.textInputTypeNumber

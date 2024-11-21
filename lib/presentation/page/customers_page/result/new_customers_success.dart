@@ -40,9 +40,9 @@ class NewCustomerSuccess extends StatelessWidget {
                 Navigator.pop(context);
               },
               style: ButtonStyle(
-                side: MaterialStateProperty.all(
+                side: WidgetStateProperty.all(
                     const BorderSide(color: Color(0xFF7ABA78), width: 2.5)),
-                shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                shape: WidgetStateProperty.all(RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 )),
               ),

@@ -49,6 +49,7 @@ class _SplashScreenState extends State<SplashScreen>
     Future.delayed(
       const Duration(seconds: 3),
       () {
+        // ignore: use_build_context_synchronously
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
             builder: (_) => MainPage(username: username, email: email),
@@ -63,6 +64,7 @@ class _SplashScreenState extends State<SplashScreen>
     Future.delayed(
       const Duration(seconds: 4),
       () {
+        // ignore: use_build_context_synchronously
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (_) => const LoginScreen()),
         );
@@ -75,6 +77,7 @@ class _SplashScreenState extends State<SplashScreen>
     Future.delayed(
       const Duration(seconds: 4),
       () {
+        // ignore: use_build_context_synchronously
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (_) => const OnboardingScreen()),
         );

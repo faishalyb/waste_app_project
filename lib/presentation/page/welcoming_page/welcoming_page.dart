@@ -53,9 +53,8 @@ class WelcomingPage extends StatelessWidget {
               );
             },
             style: ButtonStyle(
-              backgroundColor:
-                  MaterialStateProperty.all(const Color(0xFF7ABA78)),
-              shape: MaterialStateProperty.all(
+              backgroundColor: WidgetStateProperty.all(const Color(0xFF7ABA78)),
+              shape: WidgetStateProperty.all(
                 const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(
                     Radius.circular(10),
@@ -98,9 +97,9 @@ class WelcomingPage extends StatelessWidget {
               );
             },
             style: ButtonStyle(
-              side: MaterialStateProperty.all(
+              side: WidgetStateProperty.all(
                   const BorderSide(color: Color(0xFF7ABA78), width: 2.5)),
-              shape: MaterialStateProperty.all(RoundedRectangleBorder(
+              shape: WidgetStateProperty.all(RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               )),
             ),

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:image_picker/image_picker.dart';
@@ -80,8 +81,8 @@ class _SavingWasteScreenState extends State<SavingWasteScreen> {
         }
       });
     } catch (e) {
+      // ignore: avoid_print
       print('Error during trash detection: $e');
-      // Add user-facing error handling here (e.g., Snackbar)
     } finally {
       EasyLoading.dismiss();
     }
@@ -282,6 +283,7 @@ class _SavingWasteScreenState extends State<SavingWasteScreen> {
 
     if (response.statusCode == 201) {
       Navigator.push(
+          // ignore: use_build_context_synchronously
           context,
           MaterialPageRoute(
             builder: (context) => const SavingSuccess(),
@@ -393,15 +395,15 @@ class _SavingWasteScreenState extends State<SavingWasteScreen> {
                       height: 45,
                       child: OutlinedButton.icon(
                         style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(
-                              const Color(0xff7ABA78)),
-                          side: MaterialStateProperty.all(
+                          backgroundColor:
+                              WidgetStateProperty.all(const Color(0xff7ABA78)),
+                          side: WidgetStateProperty.all(
                             const BorderSide(
                               color: Color(0xff7ABA78),
                               width: 2,
                             ),
                           ),
-                          shape: MaterialStateProperty.all(
+                          shape: WidgetStateProperty.all(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
@@ -429,14 +431,14 @@ class _SavingWasteScreenState extends State<SavingWasteScreen> {
                       child: OutlinedButton.icon(
                         style: ButtonStyle(
                           backgroundColor:
-                              MaterialStateProperty.all(Colors.transparent),
-                          side: MaterialStateProperty.all(
+                              WidgetStateProperty.all(Colors.transparent),
+                          side: WidgetStateProperty.all(
                             const BorderSide(
                               color: Color(0xff7ABA78),
                               width: 2,
                             ),
                           ),
-                          shape: MaterialStateProperty.all(
+                          shape: WidgetStateProperty.all(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
@@ -488,7 +490,7 @@ class _SavingWasteScreenState extends State<SavingWasteScreen> {
             const SizedBox(height: 30),
             const Text(
               'Tanggal',
-              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
             WasteAppDatePicker(
@@ -496,28 +498,28 @@ class _SavingWasteScreenState extends State<SavingWasteScreen> {
               controller: dateController,
             ),
             const SizedBox(height: 30),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(
-                  width: 160,
-                  child: Text(
+                  width: MediaQuery.of(context).size.width / 2.8,
+                  child: const Text(
                     'Jenis Sampah',
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                   ),
                 ),
                 SizedBox(
-                  width: 50,
-                  child: Text(
+                  width: MediaQuery.of(context).size.width / 9,
+                  child: const Text(
                     'Berat',
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                   ),
                 ),
                 SizedBox(
-                  width: 90,
-                  child: Text(
+                  width: MediaQuery.of(context).size.width / 3.4,
+                  child: const Text(
                     'Harga',
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                   ),
                 ),
               ],
@@ -542,7 +544,7 @@ class _SavingWasteScreenState extends State<SavingWasteScreen> {
               ),
             const SizedBox(height: 10),
             Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
                   decoration: BoxDecoration(
