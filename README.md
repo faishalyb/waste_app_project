@@ -1,3 +1,5 @@
+# THIS PROJECT IS AI MODEL CLOUD BASED
+
 # waste_app
 
 A new Flutter project for Final Capstone Project Telecommunication Engineering
